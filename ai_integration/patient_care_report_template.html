@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="print.css" media="print">
+    <meta charset="UTF-8">
+    <title>Patient Care Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2rem; }
+        h1 { text-align: center; }
+        .section { margin-top: 2rem; }
+        .label { font-weight: bold; }
+        .field { margin-bottom: 0.5rem; }
+        .row { margin-left: 1rem; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { border: 1px solid #000; padding: 0.5rem; text-align: center; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h1>Patient Care Report</h1>
+
+    <!-- Incident Header -->
+    <div class="section">
+    <h2>Incident</h2>
+    <div class="row">
+        <div class="field"><span class="label">Incident ID:</span> {{ incident.incident_id or "—" }}</div>
+        <div class="field"><span class="label">Incident Date:</span> {{ incident.incident_date or "—" }}</div>
+        <div class="field"><span class="label">Start Time:</span> {{ incident.start_time_hms or "—" }}</div>
+    </div>
+    </div>
+
+    <!-- Patient Identification -->
+    <div class="section">
+        <h2>Patient Identification</h2>
+        <div class="row">
+            <div class="field"><span class="label">Name:</span> {{ name or "—" }}</div>
+            <div class="field"><span class="label">Alt Description:</span>
+            {% if alt_description and alt_description|length > 0 %}
+                {{ alt_description | join(", ") }}
+            {% else %}—{% endif %}
+            </div>
+            <div class="field"><span class="label">Age:</span> {{ age or "—" }}</div>
+            <div class="field"><span class="label">Sex:</span> {{ sex or "—" }}</div>
+            <div class="field"><span class="label">Date of Birth:</span> {{ date_of_birth or "—" }}</div>
+            <div class="field"><span class="label">Weight:</span> {{ weight or "—" }}</div>
+            <div class="field"><span class="label">Blood Type:</span> {{ blood_type or "—" }}</div>
+            <div class="field"><span class="label">SSN:</span> {{ social_security_number or "—" }}</div>
+            <div class="field"><span class="label">Address:</span> {{ address or "—" }}</div>
+            <div class="field"><span class="label">Patient Contact Info:</span> {{ patient_contact_info or "—" }}</div>
+            <div class="field"><span class="label">Next of Kin:</span> {{ next_of_kin_name or "—" }}</div>
+            <div class="field"><span class="label">Next of Kin Phone Number:</span> {{ next_of_kin_phone_number or "—" }}</div>
+        </div>
+    </div>
+
+    <!-- Dynamic Vitals Timeline Table -->
+    <div class="section">
+        <h2>Vital Signs Timeline</h2>
+        <table>
+            <tr>
+                <th>Time</th>
+                <th>Blood Pressure</th>
+                <th>Heart Rate</th>
+                <th>Respiratory Rate</th>
+                <th>Oxygen Saturation</th>
+                <th>Glucose Level</th>
+                <th>GCS Score</th>
+            </tr>
+            {% for entry in vitals_log %}
+            <tr>
+                <td>{{ entry.time }}</td>
+                <td>{{ entry.blood_pressure or "—" }}</td>
+                <td>{{ entry.heart_rate or "—" }}</td>
+                <td>{{ entry.respiratory_rate or "—" }}</td>
+                <td>{{ entry.oxygen_saturation or "—" }}</td>
+                <td>{{ entry.glucose_level or "—" }}</td>
+                <td>{{ entry.gcs_score or "—" }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <!-- Assessment -->
+    <div class="section">
+        <h2>Assessment</h2>
+        <div class="row">
+            <div class="field"><span class="label">Injuries:</span>
+            {% if injury and injury|length > 0 %}
+                <ul>{% for item in injury %}<li>{{ item }}</li>{% endfor %}</ul>
+            {% else %}—{% endif %}
+            </div>
+
+            <div class="field"><span class="label">Symptoms:</span>
+            {% if symptoms and symptoms|length > 0 %}
+                <ul>{% for item in symptoms %}<li>{{ item }}</li>{% endfor %}</ul>
+            {% else %}—{% endif %}
+            </div>
+
+            <div class="field"><span class="label">Mental Status:</span> {{ mental_status or "—" }}</div>
+            <div class="field"><span class="label">Airway Status:</span> {{ airway_status or "—" }}</div>
+
+            <div class="field"><span class="label">Patient Behavior:</span>
+            {% if patient_behavior and patient_behavior|length > 0 %}
+                <ul>{% for item in patient_behavior %}<li>{{ item }}</li>{% endfor %}</ul>
+            {% else %}—{% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Dynamic Medications Timeline Table -->
+    <div class="section">
+        <h2>Medications Administered</h2>
+        <table>
+            <tr>
+                <th>Time</th>
+                <th>Medication</th>
+            </tr>
+            {% for med in meds_log %}
+            <tr>
+                <td>{{ med.time }}</td>
+                <td>{{ med.medication }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <!-- Interventions -->
+    <div class="section">
+        <h2>Care Provided</h2>
+        <div class="row">
+            <div class="field"><span class="label">Interventions:</span>
+            {% if interventions and interventions|length > 0 %}
+                <ul>{% for item in interventions %}<li>{{ item }}</li>{% endfor %}</ul>
+            {% else %}—{% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Transport -->
+    <div class="section">
+    <h2>Transport</h2>
+    <div class="row">
+        <div class="field"><span class="label">Destination:</span> {{ transport_destination or "—" }}</div>
+        <div class="field"><span class="label">Mode:</span> {{ transport_mode or "—" }}</div>
+        <div class="field"><span class="label">Time of PickUp:</span> {{ transport_time_pickup or "—" }}</div>
+        <div class="field"><span class="label">Time of Dropoff:</span> {{ transport_time_dropoff or "—" }}</div>
+    </div>
+    </div>
+
+    <!-- Additional Info -->
+    <div class="section">
+        <h2>Additional Info</h2>
+        <div class="row">
+            <div class="field"><span class="label">Scene Info:</span>
+                {% if scene_info and scene_info|length > 0 %}
+                    <ul>
+                        {% for item in scene_info %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}—{% endif %}
+            </div>
+
+            <div class="field"><span class="label">Allergies:</span>
+                {% if allergies and allergies|length > 0 %}
+                    <ul>
+                        {% for item in allergies %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}—{% endif %}
+            </div>
+
+            <div class="field"><span class="label">Medical History:</span>
+                {% if medical_history and medical_history|length > 0 %}
+                    <ul>
+                        {% for item in medical_history %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}—{% endif %}
+            </div>
+
+            <div class="field"><span class="label">Last Oral Intake:</span> {{ last_oral_intake or "—" }}</div>
+            <div class="field"><span class="label">Advance Directive:</span> {{ advance_directive or "—" }}</div>
+        </div>
+    </div>
+
+    <!-- Field Notes (PatWit) -->
+    <div class="section">
+        <h2>Field Notes (Patient/Witness Statements)</h2>
+        <div class="row">
+            <!-- Identity (reported) -->
+            <div class="field"><span class="label">Reported Name:</span> {{ patwit.name or "—" }}</div>
+            <div class="field"><span class="label">Alt Description:</span>
+                {% if patwit.alt_description and patwit.alt_description|length > 0 %}
+                    {{ patwit.alt_description | join(", ") }}
+                {% else %}—{% endif %}
+            </div>
+            <div class="field"><span class="label">Age:</span> {{ patwit.age or "—" }}</div>
+            <div class="field"><span class="label">Sex:</span> {{ patwit.sex or "—" }}</div>
+            <div class="field"><span class="label">Date of Birth:</span> {{ patwit.date_of_birth or "—" }}</div>
+            <div class="field"><span class="label">Weight:</span> {{ patwit.weight or "—" }}</div>
+            <div class="field"><span class="label">Blood Type:</span> {{ patwit.blood_type or "—" }}</div>
+            <div class="field"><span class="label">SSN:</span> {{ patwit.social_security_number or "—" }}</div>
+            <div class="field"><span class="label">Address:</span> {{ patwit.address or "—" }}</div>
+            <div class="field"><span class="label">Patient Contact Info:</span> {{ patwit.patient_contact_info or "—" }}</div>
+            <div class="field"><span class="label">Next of Kin:</span> {{ patwit.next_of_kin_name or "—" }}</div>
+            <div class="field"><span class="label">Next of Kin Phone Number:</span> {{ patwit.next_of_kin_phone_number or "—" }}</div>
+
+            <!-- Clinical / Scene (reported) -->
+            <div class="field"><span class="label">Injuries (reported):</span>
+                {% if patwit.injury and patwit.injury|length > 0 %}
+                    <ul>
+                        {% for item in patwit.injury %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}—{% endif %}
+            </div>
+
+            <div class="field"><span class="label">Symptoms (reported):</span>
+                {% if patwit.symptoms and patwit.symptoms|length > 0 %}
+                    <ul>
+                        {% for item in patwit.symptoms %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}—{% endif %}
+            </div>
+
+            <div class="field"><span class="label">Airway Status (reported):</span> {{ patwit.airway_status or "—" }}</div>
+            <div class="field"><span class="label">Mental Status (reported):</span> {{ patwit.mental_status or "—" }}</div>
+
+            <div class="field"><span class="label">Patient Behavior (reported):</span>
+                {% if patwit.patient_behavior and patwit.patient_behavior|length > 0 %}
+                    <ul>
+                        {% for item in patwit.patient_behavior %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}—{% endif %}
+            </div>
+
+            <div class="field"><span class="label">Witness Vitals:</span>
+                {% if patwit.witness_vitals and patwit.witness_vitals|length > 0 %}
+                    <ul>
+                        {% for item in patwit.witness_vitals %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}—{% endif %}
+            </div>
+
+            <div class="field"><span class="label">Scene Info (reported):</span>
+                {% if patwit.scene_info and patwit.scene_info|length > 0 %}
+                    <ul>
+                        {% for item in patwit.scene_info %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}—{% endif %}
+            </div>
+
+            <div class="field"><span class="label">Allergies (reported):</span>
+                {% if patwit.allergies and patwit.allergies|length > 0 %}
+                    <ul>
+                        {% for item in patwit.allergies %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}—{% endif %}
+            </div>
+
+            <div class="field"><span class="label">Medical History (reported):</span>
+                {% if patwit.medical_history and patwit.medical_history|length > 0 %}
+                    <ul>
+                        {% for item in patwit.medical_history %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}—{% endif %}
+            </div>
+
+            <div class="field"><span class="label">Last Oral Intake (reported):</span> {{ patwit.last_oral_intake or "—" }}</div>
+            <div class="field"><span class="label">Advance Directive (reported):</span> {{ patwit.advance_directive or "—" }}</div>
+
+            <div class="field"><span class="label">Interventions (reported):</span>
+                {% if patwit.interventions and patwit.interventions|length > 0 %}
+                    <ul>
+                        {% for item in patwit.interventions %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}—{% endif %}
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

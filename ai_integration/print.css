@@ -1,0 +1,19 @@
+@page { margin: 12mm; size: auto; }
+
+@media print {
+  html, body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { font-size: 11pt; line-height: 1.35; }
+
+  h1, h2 { break-after: avoid; margin-top: 0; }
+  .row, .field, ul, ol { break-inside: avoid; }
+
+  table { page-break-inside: auto; border-collapse: collapse; }
+  thead { display: table-header-group; }
+  tfoot { display: table-footer-group; }
+  tr { break-inside: avoid; }
+  th, td { background-clip: padding-box; }
+
+  .page-break { break-before: page; }
+  .avoid-break { break-inside: avoid; }
+  .no-print { display: none !important; }
+}

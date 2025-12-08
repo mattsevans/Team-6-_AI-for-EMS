@@ -1,0 +1,48 @@
+# --- Python build cruft ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.tmp
+
+# --- Virtual envs / local env files ---
+.venv_docker/
+.venv/
+venv/
+capstenv/
+.env
+.env.*
+
+# --- VCS / editor junk ---
+.git/
+.gitignore
+.vscode/
+.DS_Store
+Thumbs.db
+
+# --- Folders & files you asked to ignore ---
+mailbox/
+.unused_outbox/
+reports/
+Latency_Visualization/
+make_fake_mailbox
+OLD_generate_transfer_report
+cloud_io_healthcheck
+
+# Any file starting with test or zora (your request)
+test*
+zora*
+
+# --- Secrets / credentials (do NOT bake into images) ---
+gmail_client_secret.json
+gmail_token.json
+GoogleCloudKey*
+OpenAi Key
+*credentials*.json
+*token*.json
+*key*.json
+
+# --- Typically not needed in the AI container ---
+notebooks/
+data/

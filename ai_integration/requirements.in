@@ -1,0 +1,17 @@
+backports.tarfile==1.2.0
+google-api-python-client==2.185.0
+google-auth-oauthlib==1.2.2
+google-cloud-firestore==2.20.1
+google-cloud-pubsub==2.29.0
+google-cloud-speech==2.31.1
+google-cloud-storage==3.1.0
+jaraco.collections==5.1.0
+jinja2==3.1.6
+matplotlib==3.10.1
+openai==1.68.2
+pandas==2.2.3
+pip-chill==1.0.3
+platformdirs==4.2.2
+python-dotenv==1.1.1
+pyttsx3==2.98
+tomli==2.0.1
